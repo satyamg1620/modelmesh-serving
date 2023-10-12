@@ -18,3 +18,7 @@ resources:
 
 configurations:
   - kustomizeconfig.yaml
+
+# OpenDataHub Override: ODH adds this annotation
+commonAnnotations:
+  service.beta.openshift.io/inject-cabundle: "true"

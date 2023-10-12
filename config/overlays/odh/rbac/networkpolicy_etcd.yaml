@@ -1,4 +1,4 @@
-# Copyright 2021 IBM Corporation
+# Copyright 2022 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,19 +11,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-apiVersion: v1
-kind: Service
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
 metadata:
-  name: modelmesh-webhook-server-service
-  # OpenDataHub Override: added annotation and removed namespace
-  #namespace: system
-  annotations:
-    service.beta.openshift.io/serving-cert-secret-name: modelmesh-webhook-server-cert
-
+  name: etcd
 spec:
-  ports:
-    - port: 9443
-      protocol: TCP
-      targetPort: webhook
-  selector:
-    control-plane: modelmesh-controller
+  podSelector:
+    matchLabels:
+      component: model-mesh-etcd
+      app.kubernetes.io/part-of: model-mesh
+  ingress:
+    # etcd communication
+    - from:
+        - namespaceSelector:
+            # matches controller and runtime pods
+            matchLabels:
+              modelmesh-enabled: "true"
+          # mataches internal pods
+        - podSelector: {}
+      ports:
+        - port: 2379
+          protocol: TCP
+  policyTypes:
+    - Ingress
