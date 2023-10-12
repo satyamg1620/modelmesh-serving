@@ -23,13 +23,6 @@ vars:
       kind: ConfigMap
       name: mesh-parameters
   - fieldref:
-      fieldPath: data.monitoring-namespace
-    name: monitoring-namespace
-    objref:
-      apiVersion: v1
-      kind: ConfigMap
-      name: mesh-parameters
-  - fieldref:
       fieldPath: data.odh-modelmesh
     name: odh-modelmesh
     objref:
