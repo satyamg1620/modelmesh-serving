@@ -37,6 +37,9 @@ CONTROLLER_GEN_VERSION ?= "v0.11.4"
 # find available versions by running `setup-envtest list`
 KUBERNETES_VERSION ?= 1.23
 
+KUSTOMIZE ?= $(LOCALBIN)/kustomize
+KUSTOMIZE_VERSION ?= v5.0.1
+
 CRD_OPTIONS ?= "crd:maxDescLen=0"
 
 # Model Mesh gRPC API Proto Generation
@@ -53,6 +56,17 @@ endif
 .PHONY: all
 ## Alias for `manager`
 all: manager
+
+## Location to install dependencies to
+LOCALBIN ?= $(shell pwd)/bin
+$(LOCALBIN):
+	mkdir -p $(LOCALBIN)
+
+KUSTOMIZE_INSTALL_SCRIPT ?= "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"
+.PHONY: kustomize
+kustomize: $(KUSTOMIZE) ## Download kustomize locally if necessary.
+$(KUSTOMIZE): $(LOCALBIN)
+	test -s $(KUSTOMIZE) || { curl -s $(KUSTOMIZE_INSTALL_SCRIPT) | sh -s -- $(subst v,,$(KUSTOMIZE_VERSION)) $(LOCALBIN); }
 
 .PHONY: test
 ## Run unit tests (Requires kubebuilder, etcd, kube-apiserver, envtest)

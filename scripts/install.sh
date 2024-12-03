@@ -287,11 +287,11 @@ fi
 # Quickstart resources
 if [[ $quickstart == "true" ]]; then
   info "Deploying quickstart resources for etcd and minio"
-  kubectl apply -f dependencies/quickstart.yaml
+  kubectl apply -f dependencies/quickstart.yaml --validate=false
 
-  info "Waiting for dependent pods to be up ..."
-  wait_for_pods_ready "-l app=etcd"
-  wait_for_pods_ready "-l app=minio"
+#  info "Waiting for dependent pods to be up ..."
+#  wait_for_pods_ready "-l app=etcd"
+#  wait_for_pods_ready "-l app=minio"
 fi
 
 # FVT resources

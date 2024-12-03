@@ -41,6 +41,8 @@ spec:
       env:
         - name: TS_CONFIG_FILE
           value: /models/_torchserve_models/mmconfig.properties
+        - name: TEMP
+          value: /tmp
         # TBD, this may give better performance
         #- name: TS_PREFER_DIRECT_BUFFER
         #  value: true

@@ -15,7 +15,7 @@
 podsPerRuntime: 2
 headlessService: true
 modelMeshImage:
-  name: kserve/modelmesh
+  name: quay.io/morana/kserve/modelmesh
   tag: latest
 modelMeshResources:
   requests:
@@ -28,7 +28,7 @@ restProxy:
   enabled: true
   port: 8008
   image:
-    name: kserve/rest-proxy
+    name: quay.io/morana/kserve/rest-proxy
     tag: latest
   resources:
     requests:
@@ -38,8 +38,8 @@ restProxy:
       cpu: "1"
       memory: "512Mi"
 storageHelperImage:
-  name: kserve/modelmesh-runtime-adapter
-  tag: latest
+  name: quay.io/satyam16/modelmesh-runtime-adapter
+  tag: latest-2
   command: ["/opt/app/puller"]
 storageHelperResources:
   requests:
@@ -53,6 +53,6 @@ metrics:
   enabled: true
 builtInServerTypes:
   - triton
-  - mlserver
-  - ovms
   - torchserve
+    #  - mlserver
+    #  - ovms
